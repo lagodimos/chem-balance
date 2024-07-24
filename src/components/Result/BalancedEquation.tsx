@@ -18,7 +18,7 @@ function BalancedEquation({ equation, solution }: Props) {
                     </span>
                     <SubstanceText
                         substance={substances[index]}
-                        disableTopLevelParen={true}
+                        topLevelSubstance={true}
                     />
                     {![
                         substances.length - 1,
