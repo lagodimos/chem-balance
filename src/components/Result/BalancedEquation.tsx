@@ -23,8 +23,8 @@ function BalancedEquation({ equation, solution }: Props) {
                     {![
                         substances.length - 1,
                         equation.getReactants().length - 1,
-                    ].includes(index) && "+"}
-                    {index == equation.getReactants().length - 1 && "="}
+                    ].includes(index) && " + "}
+                    {index == equation.getReactants().length - 1 && " = "}
                 </>
             ))}
         </p>
