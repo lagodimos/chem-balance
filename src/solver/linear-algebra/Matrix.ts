@@ -117,7 +117,11 @@ export class Matrix {
     }
 
     public applyRowReduction() {
-        for (let col = 0; col < this.rowCount(); col++) {
+        for (
+            let col = 0;
+            col < this.rowCount() && col < this.columnCount();
+            col++
+        ) {
             // Move a row with a pivot in the current row, if exists
             // and the current one has a zero in [row][row] position
             for (
