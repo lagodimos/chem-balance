@@ -10,7 +10,7 @@ function BalancedEquation({ equation, solution }: Props) {
     const substances = equation.getReactants().concat(equation.getProducts());
 
     return (
-        <p className="display-4 text-center">
+        <p className="m-5 display-4">
             {solution.map((coefficient, index) => (
                 <>
                     <span className="text-primary">
