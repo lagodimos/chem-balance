@@ -45,7 +45,7 @@ export class Element implements Substance {
         if (Elements.includes(symbol)) {
             this._symbol = symbol;
         } else {
-            throw Error("No such element");
+            throw Error("No such element '" + symbol + "'");
         }
 
         this._quantity = quantity ?? 1;
