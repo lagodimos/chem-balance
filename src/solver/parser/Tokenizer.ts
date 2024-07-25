@@ -99,7 +99,7 @@ export class Tokenizer {
             type = TokenType.RParen;
         } else if (this.getCurChar() == "+") {
             type = TokenType.Plus;
-        } else if (this.getCurChar() == "-") {
+        } else if (["-", "−"].includes(this.getCurChar())) {
             type = TokenType.Minus;
         } else if (this.getCurChar() == "^") {
             type = TokenType.Caret;
