@@ -75,9 +75,12 @@ export class Parser {
 
         token = this.getCurToken();
         if (
-            ![TokenType.Electron, TokenType.Element, TokenType.LParen].includes(
-                token.getType(),
-            )
+            ![
+                TokenType.Electron,
+                TokenType.Element,
+                TokenType.Equals,
+                TokenType.LParen,
+            ].includes(token.getType())
         ) {
             throw new Error(
                 "Equation cannot start with token '" + token.getText() + "'",
@@ -122,6 +125,12 @@ export class Parser {
                     "Unexpected token '" + this.getCurToken().getText() + "'",
                 );
             }
+        }
+
+        if (this._reactants.length == 0) {
+            throw new Error("Equation has no reactants");
+        } else if (this._products.length == 0) {
+            throw new Error("Equation has no products");
         }
 
         return new ChemicalEquation(this._reactants, this._products);
