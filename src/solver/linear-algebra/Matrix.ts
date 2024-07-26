@@ -156,10 +156,32 @@ export class Matrix {
     }
 
     public solve(b: Fraction[]) {
-        // Ax=b
+        /**
+         * Returns the solution to the equation Ax=b
+         */
+
+        let solution: Fraction[] = [];
         const m = this.copy().addColumnRight(b).applyRowReduction();
 
-        return m
+        // Check if the system has a solution
+        for (let row = 0; row < m.columnCount() && row < m.rowCount(); row++) {
+            if (
+                (m.getValue(row, row).getValue() == 0 &&
+                    m.getValue(row, m.columnCount() - 1).getValue() != 0) ||
+                (m.getValue(row, row).getValue() != 0 &&
+                    row == m.columnCount() - 1)
+            ) {
+                throw new Error("no-solution");
+            }
+        }
+
+        // Check for multiple solutions
+        const k = m.columnCount() - 2;
+        if (m.rowCount() < k + 1 || m.getValue(k, k).getValue() == 0) {
+            throw new Error("multiple-solutions");
+        }
+
+        solution = m
             .getColumn(m.columnCount() - 1)
             .slice(
                 0,
@@ -167,6 +189,8 @@ export class Matrix {
                     ? m.rowCount()
                     : m.columnCount() - 1,
             );
+
+        return solution;
     }
 
     // For Debugging

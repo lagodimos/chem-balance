@@ -22,7 +22,7 @@ export class ChemicalEquation {
     public solve() {
         const coefficients: Fraction[][] = [];
         const elements: string[] = [];
-        let solution: Fraction[];
+        let solution: Fraction[] = [];
 
         // Find all elements in the equation
         for (const substance of this._reactants.concat(this._products)) {
@@ -79,12 +79,21 @@ export class ChemicalEquation {
         }
 
         const m = new Matrix(coefficients);
-
-        // Set one variable to one and solve for the others
         const negativeOne = new Fraction(-1, 1);
-        solution = m.solve(
-            m.removeRightColumn().map((frac) => frac.mul(negativeOne)),
-        );
+
+        try {
+            // Set one variable to one and solve for the others
+            solution = m.solve(
+                m.removeRightColumn().map((frac) => frac.mul(negativeOne)),
+            );
+        } catch (e) {
+            if ((e as Error).message == "no-solution") {
+                throw new Error("All-zero solution");
+            } else if ((e as Error).message == "multiple-solutions") {
+                throw new Error("Multiple solutions");
+            }
+        }
+
         solution.push(new Fraction(1, 1));
 
         // Find the first integer solution
