@@ -100,7 +100,7 @@ export class Compound implements Substance {
 
         for (const substance of this._substances) {
             for (const [key, value] of substance.getElementsCount()) {
-                map.set(key, value + (map.get(key) ?? 0));
+                map.set(key, value * this._quantity + (map.get(key) ?? 0));
             }
         }
 
