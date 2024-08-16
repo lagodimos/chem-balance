@@ -8,7 +8,6 @@ export enum SubstanceType {
 
 export type Substance = {
     getType(): SubstanceType;
-    getText(): string;
     getElementsCount(): Map<string, number>;
     getSubstances(): Substance[];
     getQuantity(): number;
@@ -22,7 +21,7 @@ export class Electron implements Substance {
     constructor() {}
 
     public getType = () => SubstanceType.Electron;
-    public getText = () => "e";
+    public getSymbol = () => "e";
     public getElementsCount = () => new Map<string, number>();
     public getSubstances = () => [];
     public getQuantity = () => 1;
@@ -53,7 +52,7 @@ export class Element implements Substance {
     }
 
     public getType = () => SubstanceType.Element;
-    public getText = () => this._symbol;
+    public getSymbol = () => this._symbol;
     public getElementsCount() {
         const map = new Map<string, number>();
         map.set(this._symbol, this._quantity);
@@ -85,15 +84,6 @@ export class Compound implements Substance {
     }
 
     public getType = () => SubstanceType.Compound;
-
-    public getText() {
-        let text = "";
-
-        for (const substance of this._substances) {
-            text += substance.getText();
-        }
-        return text;
-    }
 
     public getElementsCount() {
         const map = new Map<string, number>();

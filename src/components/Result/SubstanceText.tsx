@@ -1,4 +1,6 @@
 import {
+    Electron,
+    Element,
     Substance,
     SubstanceType,
 } from "../../solver/chemical-equation/Substance";
@@ -14,7 +16,11 @@ function SubstanceText({ substance, topLevelSubstance }: Props) {
     return (
         <>
             {substance.getType() != SubstanceType.Compound ? (
-                substance.getText()
+                substance.getType() == SubstanceType.Electron ? (
+                    (substance as Electron).getSymbol()
+                ) : (
+                    (substance as Element).getSymbol()
+                )
             ) : (
                 <>
                     {!topLevelSubstance && "("}
