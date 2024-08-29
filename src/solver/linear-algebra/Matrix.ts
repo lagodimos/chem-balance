@@ -171,14 +171,14 @@ export class Matrix {
                 (m.getValue(row, row).getValue() != 0 &&
                     row == m.columnCount() - 1)
             ) {
-                throw new Error("no-solution");
+                throw new NoSolutionError();
             }
         }
 
         // Check for multiple solutions
         const k = m.columnCount() - 2;
         if (m.rowCount() < k + 1 || m.getValue(k, k).getValue() == 0) {
-            throw new Error("multiple-solutions");
+            throw new MultipleSolutionsError();
         }
 
         solution = m
@@ -207,5 +207,19 @@ export class Matrix {
             }
             console.log(row);
         }
+    }
+}
+
+export class NoSolutionError extends Error {
+    constructor() {
+        super("No solution");
+        this.name = "NoSolutionError";
+    }
+}
+
+export class MultipleSolutionsError extends Error {
+    constructor() {
+        super("Multiple solutions");
+        this.name = "MultipleSolutionsError";
     }
 }

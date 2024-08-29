@@ -1,6 +1,10 @@
 import { Substance } from "./Substance";
 import { Fraction } from "../Fraction";
-import { Matrix } from "../linear-algebra/Matrix";
+import {
+    Matrix,
+    NoSolutionError,
+    MultipleSolutionsError,
+} from "../linear-algebra/Matrix";
 
 export class ChemicalEquation {
     private _reactants: Substance[];
@@ -86,10 +90,10 @@ export class ChemicalEquation {
             solution = m.solve(
                 m.removeRightColumn().map((frac) => frac.mul(negativeOne)),
             );
-        } catch (e) {
-            if ((e as Error).message == "no-solution") {
+        } catch (error) {
+            if (error instanceof NoSolutionError) {
                 throw new Error("All-zero solution");
-            } else if ((e as Error).message == "multiple-solutions") {
+            } else if (error instanceof MultipleSolutionsError) {
                 throw new Error("Multiple solutions");
             }
         }
