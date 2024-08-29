@@ -5,7 +5,6 @@ import {
     Compound,
     Electron,
     Element,
-    SubstanceType,
 } from "../chemical-equation/Substance";
 
 enum EquationSide {
@@ -216,7 +215,7 @@ export class Parser {
             resultSubstance = new Compound(substances);
         }
 
-        if (resultSubstance.getType() != SubstanceType.Electron) {
+        if (!(resultSubstance instanceof Electron)) {
             resultSubstance.setCharge(charge);
         }
 

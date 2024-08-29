@@ -1,8 +1,8 @@
 import {
+    Compound,
     Electron,
     Element,
     Substance,
-    SubstanceType,
 } from "../../solver/chemical-equation/Substance";
 
 import Charge from "./Charge";
@@ -15,8 +15,8 @@ interface Props {
 function SubstanceText({ substance, topLevelSubstance }: Props) {
     return (
         <>
-            {substance.getType() != SubstanceType.Compound ? (
-                substance.getType() == SubstanceType.Electron ? (
+            {!(substance instanceof Compound) ? (
+                substance instanceof Electron ? (
                     (substance as Electron).getSymbol()
                 ) : (
                     (substance as Element).getSymbol()

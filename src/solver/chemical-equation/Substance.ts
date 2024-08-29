@@ -1,13 +1,6 @@
 import { Elements } from "./Elements";
 
-export enum SubstanceType {
-    Electron,
-    Element, // Used to represent also a molecule or ion
-    Compound,
-}
-
 export type Substance = {
-    getType(): SubstanceType;
     getElementsCount(): Map<string, number>;
     getSubstances(): Substance[];
     getQuantity(): number;
@@ -20,7 +13,6 @@ export type Substance = {
 export class Electron implements Substance {
     constructor() {}
 
-    public getType = () => SubstanceType.Electron;
     public getSymbol = () => "e";
     public getElementsCount = () => new Map<string, number>();
     public getSubstances = () => [];
@@ -51,7 +43,6 @@ export class Element implements Substance {
         this._charge = charge ?? 0;
     }
 
-    public getType = () => SubstanceType.Element;
     public getSymbol = () => this._symbol;
     public getElementsCount() {
         const map = new Map<string, number>();
@@ -82,8 +73,6 @@ export class Compound implements Substance {
         this._quantity = quantity ?? 1;
         this._charge = charge ?? 0;
     }
-
-    public getType = () => SubstanceType.Compound;
 
     public getElementsCount() {
         const map = new Map<string, number>();
