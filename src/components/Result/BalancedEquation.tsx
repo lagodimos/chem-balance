@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import { ChemicalEquation } from "../../solver/chemical-equation/Equation";
 import SubstanceText from "./SubstanceText";
 
@@ -12,7 +13,7 @@ function BalancedEquation({ equation, solution }: Props) {
     return (
         <p className="m-5 display-4">
             {solution.map((coefficient, index) => (
-                <>
+                <Fragment key={index}>
                     <span className="text-primary">
                         {coefficient != 1 && coefficient}
                     </span>
@@ -25,7 +26,7 @@ function BalancedEquation({ equation, solution }: Props) {
                         equation.getReactants().length - 1,
                     ].includes(index) && " + "}
                     {index == equation.getReactants().length - 1 && " \u2192 "}
-                </>
+                </Fragment>
             ))}
         </p>
     );

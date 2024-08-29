@@ -24,8 +24,9 @@ function SubstanceText({ substance, topLevelSubstance }: Props) {
             ) : (
                 <>
                     {!topLevelSubstance && "("}
-                    {substance.getSubstances().map((sub) => (
+                    {substance.getSubstances().map((sub, index) => (
                         <SubstanceText
+                            key={index}
                             substance={sub}
                             topLevelSubstance={false}
                         />
