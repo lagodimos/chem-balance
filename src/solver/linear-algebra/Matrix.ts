@@ -1,9 +1,9 @@
-import { Fraction } from "../Fraction";
+import { Rational } from "../Rational";
 
 export class Matrix {
-    private _values: Fraction[][];
+    private _values: Rational[][];
 
-    constructor(values: Fraction[][]) {
+    constructor(values: Rational[][]) {
         this._values = values;
     }
 
@@ -24,7 +24,7 @@ export class Matrix {
     }
 
     public getRow(r: number) {
-        const row: Fraction[] = [];
+        const row: Rational[] = [];
 
         for (let i = 0; i < this.columnCount(); i++) {
             row.push(this._values[r][i]);
@@ -33,7 +33,7 @@ export class Matrix {
     }
 
     public getColumn(c: number) {
-        const column: Fraction[] = [];
+        const column: Rational[] = [];
 
         for (let i = 0; i < this.rowCount(); i++) {
             column.push(this._values[i][c]);
@@ -42,7 +42,7 @@ export class Matrix {
     }
 
     public copy() {
-        const values: Fraction[][] = [];
+        const values: Rational[][] = [];
 
         for (let row = 0; row < this.rowCount(); row++) {
             values.push(this.getRow(row));
@@ -51,14 +51,14 @@ export class Matrix {
         return new Matrix(values);
     }
 
-    public addRowBottom(row: Fraction[]) {
+    public addRowBottom(row: Rational[]) {
         if (row.length == this.columnCount()) {
             this._values.push(row);
         }
         return this;
     }
 
-    public addColumnRight(column: Fraction[]) {
+    public addColumnRight(column: Rational[]) {
         if (column.length == this.rowCount()) {
             for (let row = 0; row < this.rowCount(); row++) {
                 this._values[row].push(column[row]);
@@ -72,8 +72,8 @@ export class Matrix {
     }
 
     public removeRightColumn() {
-        const column: Fraction[] = [];
-        let value: Fraction | undefined;
+        const column: Rational[] = [];
+        let value: Rational | undefined;
 
         for (const row of this._values) {
             value = row.pop();
@@ -88,7 +88,7 @@ export class Matrix {
     }
 
     public swapRows(r1: number, r2: number) {
-        let temp: Fraction;
+        let temp: Rational;
 
         for (let col = 0; col < this.columnCount(); col++) {
             temp = this._values[r1][col];
@@ -98,20 +98,20 @@ export class Matrix {
         return this;
     }
 
-    public rowAdd(r1: number, scalar: Fraction, r2: number) {
+    public rowAdd(r1: number, scalar: Rational, r2: number) {
         for (let col = 0; col < this.columnCount(); col++) {
-            let frac = this._values[r2][col];
-            frac = frac.add(this._values[r1][col].mul(scalar));
-            this._values[r2][col] = frac;
+            let value = this._values[r2][col];
+            value = value.add(this._values[r1][col].mul(scalar));
+            this._values[r2][col] = value;
         }
         return this;
     }
 
-    public rowMul(r: number, scalar: Fraction) {
+    public rowMul(r: number, scalar: Rational) {
         for (let col = 0; col < this.columnCount(); col++) {
-            let frac = this._values[r][col];
-            frac = frac.mul(scalar);
-            this._values[r][col] = frac;
+            let value = this._values[r][col];
+            value = value.mul(scalar);
+            this._values[r][col] = value;
         }
         return this;
     }
@@ -137,17 +137,17 @@ export class Matrix {
 
             for (let row = 0; row < this.rowCount(); row++) {
                 // apply Gaussian elimination
-                const frac = this._values[row][col];
+                const value = this._values[row][col];
                 const pivot = this._values[col][col];
                 if (pivot.getNumerator() != 0) {
                     if (col != row) {
-                        let scalar = frac;
+                        let scalar = value;
                         scalar = scalar.div(pivot);
-                        scalar = scalar.mul(new Fraction(-1, 1));
+                        scalar = scalar.mul(new Rational(-1, 1));
 
                         this.rowAdd(col, scalar, row);
                     } else {
-                        this.rowMul(row, frac.inverted());
+                        this.rowMul(row, value.inverted());
                     }
                 }
             }
@@ -155,12 +155,12 @@ export class Matrix {
         return this;
     }
 
-    public solve(b: Fraction[]) {
+    public solve(b: Rational[]) {
         /**
          * Returns the solution to the equation Ax=b
          */
 
-        let solution: Fraction[] = [];
+        let solution: Rational[] = [];
         const m = this.copy().addColumnRight(b).applyRowReduction();
 
         // Check if the system has a solution
@@ -198,11 +198,11 @@ export class Matrix {
         for (let i = 0; i < this._values.length; i++) {
             let row = "";
             for (let j = 0; j < this._values[i].length; j++) {
-                const frac = this._values[i][j];
+                const value = this._values[i][j];
                 row +=
-                    frac.getNumerator().toString() +
+                    value.getNumerator().toString() +
                     "/" +
-                    frac.getDenominator().toString() +
+                    value.getDenominator().toString() +
                     "  ";
             }
             console.log(row);

@@ -1,5 +1,5 @@
 import { Substance } from "./Substance";
-import { Fraction } from "../Fraction";
+import { Rational } from "../Rational";
 import {
     Matrix,
     NoSolutionError,
@@ -24,9 +24,9 @@ export class ChemicalEquation {
     }
 
     public solve() {
-        const coefficients: Fraction[][] = [];
+        const coefficients: Rational[][] = [];
         const elements: string[] = [];
-        let solution: Fraction[] = [];
+        let solution: Rational[] = [];
 
         // Find all elements in the equation
         for (const substance of this._reactants.concat(this._products)) {
@@ -58,7 +58,7 @@ export class ChemicalEquation {
                     coefficient *= -1;
                 }
 
-                coefficients[i].push(new Fraction(coefficient, 1));
+                coefficients[i].push(new Rational(coefficient, 1));
             }
         }
 
@@ -78,17 +78,17 @@ export class ChemicalEquation {
             }
 
             coefficients[coefficients.length - 1].push(
-                new Fraction(coefficient, 1),
+                new Rational(coefficient, 1),
             );
         }
 
         const m = new Matrix(coefficients);
-        const negativeOne = new Fraction(-1, 1);
+        const negativeOne = new Rational(-1, 1);
 
         try {
             // Set one variable to one and solve for the others
             solution = m.solve(
-                m.removeRightColumn().map((frac) => frac.mul(negativeOne)),
+                m.removeRightColumn().map((value) => value.mul(negativeOne)),
             );
         } catch (error) {
             if (error instanceof NoSolutionError) {
@@ -98,17 +98,17 @@ export class ChemicalEquation {
             }
         }
 
-        solution.push(new Fraction(1, 1));
+        solution.push(new Rational(1, 1));
 
         // Find the first integer solution
-        let maxDenominator = new Fraction(1, 1);
-        for (const frac of solution) {
-            if (maxDenominator.getValue() < frac.getDenominator()) {
-                maxDenominator = new Fraction(frac.getDenominator(), 1);
+        let maxDenominator = new Rational(1, 1);
+        for (const value of solution) {
+            if (maxDenominator.getValue() < value.getDenominator()) {
+                maxDenominator = new Rational(value.getDenominator(), 1);
             }
         }
-        solution = solution.map((frac) => frac.mul(maxDenominator));
+        solution = solution.map((value) => value.mul(maxDenominator));
 
-        return solution.map((frac) => frac.getValue());
+        return solution.map((value) => value.getValue());
     }
 }
